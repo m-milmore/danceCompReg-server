@@ -73,7 +73,7 @@ const EntrySchema = new mongoose.Schema({
   },
   member: {
     type: Number,
-    required: [true, "missing teacher member number"],
+    required: [true, "missing teacher's member number"],
   },
   studentFirstName: {
     type: String,
@@ -87,7 +87,7 @@ const EntrySchema = new mongoose.Schema({
   },
   studentGender: {
     type: String,
-    required: [true, "missing student gender"],
+    required: [true, "missing student's gender"],
     enum: {
       values: ["male", "female"],
       message: "invalid gender",
@@ -123,7 +123,7 @@ const EntrySchema = new mongoose.Schema({
   },
   danceStyle: {
     type: String,
-    required: [true, "dance style missing"],
+    required: [true, "missing dance style"],
     validate: {
       validator: (danceStyle) => {
         return danceStyles.includes(danceStyle);
@@ -139,6 +139,11 @@ const EntrySchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 EntrySchema.pre("validate", function (next) {
@@ -150,7 +155,7 @@ EntrySchema.pre("validate", function (next) {
       (this.danceStyle === "latin" && latin.includes(this.dance))
     )
   ) {
-    this.invalidate("dance", "invalid dance", this.dance);
+    this.invalidate("dance", "invalid dance or missing", this.dance);
   }
   next();
 });

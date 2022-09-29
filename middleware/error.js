@@ -1,8 +1,29 @@
+const ErrorResponse = require("../utils/errorResponse");
+const formatErrorKeyValueJSON = require("../utils/formatErrorKeyValueJSON");
+
 const errorHandler = (err, req, res, next) => {
-  console.log(err.stack);
+  let error = { ...err };
+  error.message = err.message;
+
+  if (err.name === "CastError") {
+    const message = "Resource not found";
+    error = new ErrorResponse(message, 404);
+  }
+
+  if (err.code === 11000) {
+		const dup = formatErrorKeyValueJSON(err.keyValue);
+    const message = `Duplicate field value entered: ${dup}`;
+    error = new ErrorResponse(message, 400);
+  }
+
+  if (err.name === "ValidationError") {
+    const message = Object.values(err.errors).map((val) => val.message);
+    error = new ErrorResponse(message, 400);
+  }
+
   res
-    .status(err.statusCode || 500)
-    .json({ success: false, error: err.message || "Server Error" });
+    .status(error.statusCode || 500)
+    .json({ success: false, error: error.message || "Server Error" });
 };
 
 module.exports = errorHandler;

@@ -18,6 +18,7 @@
 		"Eswatini",
 		"Eustatius",
 		"Faso",
+		"forgotpassword",
 		"Futuna",
 		"Kitts",
 		"Leste",
@@ -30,10 +31,13 @@
 		"Nord",
 		"Ouest",
 		"Québec",
+		"resettoken",
 		"Réunion",
 		"Rica",
 		"Territoires",
 		"Tokelau",
+		"updatedetails",
+		"updatepassword",
 		"Viet"
 	]
 }
