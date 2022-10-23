@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    lowercase: true,
     required: [true, "email address required"],
     unique: true,
     match: [
@@ -26,7 +27,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "password required"],
     minlength: 6,
-    select: false,
+    select: false, // can't select in a query, ie, {{URL}}/api/v1/entries?select=city,state
   },
   resetPasswordToken: String,
   resetPasswordExpired: Date,

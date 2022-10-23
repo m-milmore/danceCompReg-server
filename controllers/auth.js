@@ -113,13 +113,10 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/auth/resetpassword/${resetToken}`;
+  const resetUrl = `${req.body.urlLink}${resetToken}?email=${user.email}`;
 
-  // const resetUrl = `${req.body.urlLink}${resetToken}`;
-
-  const message = `You are receiving this email because you requested a password reset. Please click on this link to reset your password: ${resetUrl}`;
+  const message = `You are receiving this email because you've requested a password reset. Please click on this link to reset your password: ${resetUrl}\n
+  If you didn't request a password reset, you can just ignore this email. The link in this email will expire in 10 minutes.`;
 
   const options = {
     email: user.email,
@@ -142,6 +139,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 // @routes	PUT /api/v1/auth/resetpassword/:resettoken
 // @access	PUBLIC
 exports.resetPassword = asyncHandler(async (req, res, next) => {
+  console.log(req.params.resettoken);
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.params.resettoken)
@@ -153,20 +151,20 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new ErrorResponse("Invalid token", 400));
+    return next(new ErrorResponse("Expired token", 400));
   }
 
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpired = undefined;
-  await user.save();
+  await user.save({ validateBeforeSave: false });
 
   user = await User.findById(user.id);
 
   sendTokenResponse(user, 200, res);
 });
 
-const sendTokenResponse = (user, statusCode, res) => {
+const sendTokenResponse = async (user, statusCode, res) => {
   const token = user.getSignedJwt();
 
   const options = {
@@ -180,8 +178,10 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
+  const userLight = await User.findById(user.id); // so the API doesn't return the password
+
   res
     .status(statusCode)
     .cookie("token", token, options)
-    .json({ success: true, token });
+    .json({ success: true, token, data: userLight });
 };

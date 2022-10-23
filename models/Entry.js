@@ -48,7 +48,7 @@ const EntrySchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  tel: {
+  phone: {
     type: String,
     match: [
       /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/,
@@ -89,7 +89,7 @@ const EntrySchema = new mongoose.Schema({
     type: String,
     required: [true, "missing student's gender"],
     enum: {
-      values: ["male", "female"],
+      values: ["M", "F"],
       message: "invalid gender",
     },
   },
@@ -117,7 +117,7 @@ const EntrySchema = new mongoose.Schema({
     type: String,
     required: [true, "missing syllabus"],
     enum: {
-      values: ["closed", "open"],
+      values: ["closed", "open", "fermé", "ouvert"],
       message: "invalid syllabus",
     },
   },
@@ -155,7 +155,7 @@ EntrySchema.pre("validate", function (next) {
       (this.danceStyle === "latin" && latin.includes(this.dance))
     )
   ) {
-    this.invalidate("dance", "invalid dance or missing", this.dance);
+    this.invalidate("dance", "invalid or missing dance", this.dance);
   }
   next();
 });

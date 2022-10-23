@@ -4,7 +4,7 @@
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -16,14 +16,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "smooth",
-    "dance": "W"
+    "dance": "W",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -35,14 +36,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "smooth",
-    "dance": "T"
+    "dance": "T",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -54,14 +56,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "smooth",
-    "dance": "F"
+    "dance": "F",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -73,14 +76,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "smooth",
-    "dance": "VW"
+    "dance": "VW",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -92,14 +96,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "rhythm",
-    "dance": "C"
+    "dance": "C",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -111,14 +116,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "rhythm",
-    "dance": "R"
+    "dance": "R",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -130,14 +136,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "rhythm",
-    "dance": "SW"
+    "dance": "SW",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -149,14 +156,15 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "rhythm",
-    "dance": "B"
+    "dance": "B",
+    "user": "633a0bd2bd6eec692df6f62d"
   },
   {
     "form": "paSD",
     "studio": "Wow Studio",
     "city": "Jamestown",
     "state": "Virginia",
-    "tel": "222-123-4567",
+    "phone": "222-123-4567",
     "email": "a@a.com",
     "teacherFirstName": "Jim",
     "teacherLastName": "John",
@@ -168,6 +176,7 @@
     "age": "D",
     "syllabus": "closed",
     "danceStyle": "rhythm",
-    "dance": "M"
+    "dance": "M",
+    "user": "633a0bd2bd6eec692df6f62d"
   }
 ]

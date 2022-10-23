@@ -9,10 +9,12 @@ const {
   createEntry,
   updateEntry,
   deleteEntry,
+  getFormConstants,
 } = require("../controllers/entries");
 
 const { protect, authorize } = require("../middleware/auth");
 
+router.get("/formconstants", getFormConstants);
 router
   .route("/")
   .get(filteredResults(Entry), getEntries)

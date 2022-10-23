@@ -11,6 +11,8 @@ exports.levels = [
 
 exports.ages = ["JV", "JR", "JE", "A", "B", "C", "D", "E", "F"];
 
+exports.youthIndex = 1;
+
 exports.danceStyles = ["smooth", "rhythm", "ballroom", "latin"];
 
 exports.smooth = ["W", "T", "F", "VW", "PB"];
@@ -36,6 +38,32 @@ exports.rhythm = [
 exports.ballroom = ["W", "T", "VW", "F", "Q"];
 
 exports.latin = ["C", "S", "R", "PD", "J"];
+
+exports.danceNames = {
+  w: "Waltz",
+  t: "Tango",
+  f: "Foxtrot",
+  vw: "Viennese",
+  pb: "Peabody",
+  c: "Chacha",
+  r: "Rumba",
+  sw: "Swing",
+  b: "Bolero",
+  m: "Mambo",
+  sal: "Salsa",
+  me: "Merengue",
+  ba: "Bachata",
+  h: "Hustle",
+  wcs: "Coast",
+  sam: "Samba",
+  pd: "Paso",
+  ta: "Argentine",
+  mi: "Milonga",
+  tv: "Vals",
+  q: "Quickstep",
+  s: "Samba",
+  j: "Jive",
+};
 
 exports.countries = [
   "Afghanistan",
@@ -201,7 +229,6 @@ exports.countries = [
   "Nigeria",
   "Niue",
   "Norfolk Island",
-  "Northern Mariana Islands",
   "Norway",
   "Oman",
   "Pakistan",
