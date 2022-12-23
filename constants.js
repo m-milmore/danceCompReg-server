@@ -11,8 +11,6 @@ exports.levels = [
 
 exports.ages = ["JV", "JR", "JE", "A", "B", "C", "D", "E", "F"];
 
-exports.youthIndex = 1;
-
 exports.danceStyles = ["smooth", "rhythm", "ballroom", "latin"];
 
 exports.smooth = ["W", "T", "F", "VW", "PB"];

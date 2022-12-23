@@ -2,6 +2,7 @@ const Entry = require("../models/Entry");
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const {
   levels,
   ages,
@@ -15,7 +16,6 @@ const {
   provinces,
   statesAbbr,
   provAbbr,
-  youthIndex,
   danceNames,
 } = require("../constants");
 const { danceCategories } = require("../compmngrSetup");
@@ -140,22 +140,37 @@ const sendEntriesToRegistrar = async (entries) => {
     const stateAbbr = countriesDivisions.includes(state)
       ? countriesDivisionsAbbr[countriesDivisions.indexOf(state)]
       : state;
+
+    // get dance category code
+    const danceCategory = danceCategories[form + danceStyle + syllabus];
+    const { categoryCode } = danceCategory;
+
+    // get dance code
+    const dances = danceCategory.dances.split(";");
+    const danceName = danceNames[dance.toLowerCase()];
+    const danceIndex = dances.findIndex((item) => item.includes(danceName));
+    const danceCode = dances[danceIndex - 1];
+
+    // get level code
+    const levels = danceCategory.levels.split(";");
+    const levelIndex = levels.findIndex((item) => item.includes(level));
+    const levelCode = levels[levelIndex - 1];
+
+    // get age code
+    const ages = danceCategory.ages.split(";");
+    const ageSet = age === "JE" ? "Y" : age;
+    const ageIndex = ages.findIndex((item) => item.includes(ageSet));
+    const ageCode = ages[ageIndex - 1];
+
+    // get entry type
     const entryType =
-      ages.indexOf(age) <= youthIndex
-        ? studentGender.toLowerCase()
-        : studentGender;
-
-    const danceCategory = danceCategories[form + danceStyle + syllabus]; // get dance category
-    const { categoryCode } = danceCategory; // get dance category code
-
-    const dances = danceCategory.dances.split(";"); // get dances from dance category
-    const danceName = danceNames[dance.toLowerCase()]; // get dance name from UI
-    const danceIndex = dances.findIndex((dance) => dance.includes(danceName)); // get dance index of dance name
-    const danceCode = dances[danceIndex - 1]; // get dance code
+      ages[ageIndex + 1] === "1" ? studentGender.toLowerCase() : studentGender;
 
     entryStr = entryStr.concat("EN|");
     entryStr = entryStr.concat(categoryCode + "|");
-    entryStr = entryStr.concat(danceCode + "|" + level + "|" + age + "|");
+    entryStr = entryStr.concat(
+      danceCode + "|" + levelCode + "|" + ageCode + "|"
+    );
     entryStr = entryStr.concat(entryType + "||");
     entryStr = entryStr.concat("N|0.00|1|" + createdAt + "|");
 
@@ -169,14 +184,14 @@ const sendEntriesToRegistrar = async (entries) => {
     let teacher = "PR|";
     teacher = teacher.concat(studentGender === "M" ? "F|" : "M|");
     teacher = teacher.concat(
-      "P|" + teacherFirstName + "|" + teacherLastName + "||"
+      "P|" + teacherFirstName + "|" + teacherLastName + "|||"
     );
     teacher = teacher.concat(member + "||1|1|" + createdAt + "|");
 
     let student = "PR|";
     student = student.concat(entryType + "|A|");
     student = student.concat(
-      studentFirstName + "|" + studentLastName + "||||1|1|"
+      studentFirstName + "|" + studentLastName + "|||||1|1|"
     );
     student = student.concat(createdAt + "|");
 
@@ -184,7 +199,7 @@ const sendEntriesToRegistrar = async (entries) => {
       studentGender === "M" ? student + teacher : teacher + student
     );
 
-    entryStr = entryStr.concat("PR|||||||||||");
+    entryStr = entryStr.concat("PR||||||||||||");
 
     entryStr = entryStr.concat("\r\n");
   });
@@ -209,3 +224,39 @@ const sendEntriesToRegistrar = async (entries) => {
 
   await sendEmail(options);
 };
+
+// @desc		Create Stripe URL
+// @route		POST /api/v1/entries/create-checkout-session
+// @access	PRIVATE
+exports.createStripeURL = asyncHandler(async (req, res, next) => {
+  const storeItems = new Map([
+    ["friday1", { priceInCents: 7000, name: "friday1" }],
+    ["friday2", { priceInCents: 5500, name: "friday2" }],
+    ["friday0", { priceInCents: 2500, name: "friday0" }],
+    ["saturday1", { priceInCents: 7000, name: "saturday1" }],
+    ["saturday2", { priceInCents: 5500, name: "saturday2" }],
+    ["saturday0", { priceInCents: 2500, name: "saturday0" }],
+    ["sunday1", { priceInCents: 2500, name: "sunday1" }],
+    ["sunday0", { priceInCents: 2000, name: "sunday0" }],
+  ]);
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: req.body.entries.map((item) => {
+      const storeItem = storeItems.get(item.category);
+      return {
+        price_data: {
+          currency: "cad",
+          product_data: { name: storeItem.name },
+          unit_amount: storeItem.priceInCents,
+        },
+        quantity: item.quantity,
+      };
+    }),
+    success_url: `${process.env.CLIENT_URL}/success.html`,
+    cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+  });
+
+  res.status(201).json({ url: session.url });
+});

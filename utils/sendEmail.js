@@ -34,6 +34,9 @@ const sendEmail = async (options) => {
 
   const info = await transporter.sendMail(message);
 
+  // MDN console
+  // string substitutions %s Outputs a string.
+  // Message sent: <f3c94108-a182-a014-d52f-ac8ea7f82776@gmail.com>
   console.log("Message sent: %s", info.messageId);
 };
 
