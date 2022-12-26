@@ -1,3 +1,27 @@
+exports.priceList = [
+  "single1|35|40|Adulte(16+) Danse Individuelle",
+  "champ1|45|50|Adulte(16+) Multi 3 danses",
+  "schol1|65|70|Adulte(16+) Bourse d'étude",
+  "single0|15|20|Junior(15-) Danse Individuelle",
+  "champ0|20|25|Junior(15-) Multi 3 danses",
+  "schol0|30|35|Junior(15-) Bourse d'étude",
+  "solo1|50|55|Démonstration en solo (Adulte & Junior)",
+  "friday1|70|75|BILLETS VENDREDI 1ère RANGÉE TABLE",
+  "friday2|55|60|BILLETS VENDREDI 2e RANGÉE| x 55 $can = ",
+  "friday0|25|30|BILLETS VENDREDI Juvénile + Junior 15 & -",
+  "saturday1|70|75|BILLETS SAMEDI 1ère RANGÉE",
+  "saturday2|55|60|BILLETS SAMEDI 2e RANGÉE| x 55 $can = ",
+  "saturday0|25|30|BILLETS SAMEDI Juvénile + Junior 15 & -",
+  "sunday1|25|30|BILLETS DIMANCHE Adulte",
+  "sunday0|20|25|BILLETS DIMANCHE Juvénile + Junior 15 & -",
+];
+
+exports.early = () => {
+  const today = new Date();
+  const deadline = new Date("2023, 08, 6");
+  return today <= deadline;
+};
+
 exports.levels = [
   "Débutant",
   "Bronze 1",

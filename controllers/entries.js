@@ -6,17 +6,13 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const {
   levels,
   ages,
-  danceStyles,
-  smooth,
-  rhythm,
-  ballroom,
-  latin,
-  countries,
   states,
   provinces,
   statesAbbr,
   provAbbr,
   danceNames,
+  priceList,
+  early,
 } = require("../constants");
 const { danceCategories } = require("../compmngrSetup");
 const moment = require("moment");
@@ -97,16 +93,7 @@ exports.deleteEntry = asyncHandler(async (req, res, next) => {
 // @access  PUBLIC
 exports.getFormConstants = asyncHandler(async (req, res, next) => {
   const formConstants = {
-    levels,
-    ages,
-    danceStyles,
-    countries,
-    states,
-    provinces,
-    smooth,
-    rhythm,
-    ballroom,
-    latin,
+    priceList,
   };
   res.status(200).json({ success: true, data: formConstants });
 });
@@ -229,33 +216,24 @@ const sendEntriesToRegistrar = async (entries) => {
 // @route		POST /api/v1/entries/create-checkout-session
 // @access	PRIVATE
 exports.createStripeURL = asyncHandler(async (req, res, next) => {
-  const storeItems = new Map([
-    ["friday1", { priceInCents: 7000, name: "friday1" }],
-    ["friday2", { priceInCents: 5500, name: "friday2" }],
-    ["friday0", { priceInCents: 2500, name: "friday0" }],
-    ["saturday1", { priceInCents: 7000, name: "saturday1" }],
-    ["saturday2", { priceInCents: 5500, name: "saturday2" }],
-    ["saturday0", { priceInCents: 2500, name: "saturday0" }],
-    ["sunday1", { priceInCents: 2500, name: "sunday1" }],
-    ["sunday0", { priceInCents: 2000, name: "sunday0" }],
-  ]);
-
+  const itemsWithNoZeros = req.body.items.filter((item) => item.quantity > 0);
+  const price = early() ? 1 : 2;
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    line_items: req.body.entries.map((item) => {
-      const storeItem = storeItems.get(item.category);
+    line_items: itemsWithNoZeros.map((item) => {
+      const storeItem = priceList.filter((list) => list.includes(item.name));
       return {
         price_data: {
           currency: "cad",
-          product_data: { name: storeItem.name },
-          unit_amount: storeItem.priceInCents,
+          product_data: { name: storeItem[0].split("|")[3] },
+          unit_amount: storeItem[0].split("|")[price] * 100,
         },
         quantity: item.quantity,
       };
     }),
-    success_url: `${process.env.CLIENT_URL}/success.html`,
-    cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+    success_url: `${process.env.CLIENT_URL}/success`,
+    cancel_url: `${process.env.CLIENT_URL}`,
   });
 
   res.status(201).json({ url: session.url });
