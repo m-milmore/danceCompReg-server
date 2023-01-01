@@ -15,11 +15,11 @@ const {
 } = require("../constants");
 
 const EntrySchema = new mongoose.Schema({
-  form: {
+  formName: {
     type: String,
     required: [true, "missing form type"],
     enum: {
-      values: ["paSD"],
+      values: ["Pro/Am 1 Danse", "Pro/Am Multi Danse"],
       message: "invalid form name",
     },
   },
@@ -135,15 +135,31 @@ const EntrySchema = new mongoose.Schema({
     type: String,
     required: [true, "missing dance"],
   },
+  category: {
+    type: String,
+    required: [true, "missing category"],
+    enum: {
+      values: ["single", "champ", "schol", "solo"],
+      message: "invalid category",
+    },
+  },
+  ageType: {
+    type: String,
+    required: [true, "missing ageType"],
+    enum: {
+      values: ["0", "1"],
+      message: "invalid ageType",
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  // user: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "User",
+  //   required: true,
+  // },
 });
 
 EntrySchema.pre("validate", function (next) {

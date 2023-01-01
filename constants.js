@@ -29,7 +29,7 @@ exports.levels = [
   "Argent 1",
   "Argent",
   "Or",
-  "or 1",
+  "Or 1",
   "Or Avancé",
 ];
 

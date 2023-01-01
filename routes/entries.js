@@ -19,7 +19,8 @@ router.get("/formconstants", getFormConstants);
 router
   .route("/")
   .get(filteredResults(Entry), getEntries)
-  .post(protect, authorize("publisher", "admin"), createEntry);
+  // .post(protect, authorize("publisher", "admin"), createEntry);
+  .post(createEntry);
 router
   .route("/:id")
   .get(getEntry)

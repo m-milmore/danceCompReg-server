@@ -38,10 +38,10 @@ exports.getEntry = asyncHandler(async (req, res, next) => {
 exports.createEntry = asyncHandler(async (req, res, next) => {
   const entries = req.body.entries.map((entry) => ({
     ...entry,
-    user: req.user.id,
+    // user: req.user.id,
   }));
 
-  await sendEntriesToRegistrar(entries);
+  // await sendEntriesToRegistrar(entries);
   await Entry.create(entries);
   res.status(201).json({ success: true });
 });
