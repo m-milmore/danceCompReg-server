@@ -1,18 +1,17 @@
 const mongoose = require("mongoose");
-const {
-  levels,
-  ages,
-  danceStyles,
-  smooth,
-  rhythm,
-  ballroom,
-  latin,
-  countries,
-  states,
-  provinces,
-  statesAbbr,
-  provAbbr,
-} = require("../constants");
+// const {
+//   levels,
+//   ages,
+//   smooth,
+//   rhythm,
+//   ballroom,
+//   latin,
+//   countries,
+//   states,
+//   provinces,
+//   statesAbbr,
+//   provAbbr,
+// } = require("../constants");
 
 const EntrySchema = new mongoose.Schema({
   formName: {
@@ -36,13 +35,13 @@ const EntrySchema = new mongoose.Schema({
   state: {
     type: String,
     required: [true, "missing state"],
-    validate: {
-      validator: (state) => {
-        const territories = provinces.concat(states.concat(countries));
-        return territories.includes(state);
-      },
-      message: ({ value }) => `${value} is invalid`,
-    },
+    // validate: {
+    //   validator: (state) => {
+    //     const territories = provinces.concat(states.concat(countries));
+    //     return territories.includes(state);
+    //   },
+    //   message: ({ value }) => `${value} is invalid`,
+    // },
   },
   stateAbbrev: {
     type: String,
@@ -96,40 +95,32 @@ const EntrySchema = new mongoose.Schema({
   level: {
     type: String,
     required: [true, "missing level"],
-    validate: {
-      validator: (level) => {
-        return levels.includes(level);
-      },
-      message: ({ value }) => `${value} is invalid`,
-    },
+    // validate: {
+    //   validator: (level) => {
+    //     return levels.includes(level);
+    //   },
+    //   message: ({ value }) => `${value} is invalid`,
+    // },
   },
   age: {
     type: String,
     required: [true, "missing age"],
-    validate: {
-      validator: (age) => {
-        return ages.includes(age);
-      },
-      message: ({ value }) => `${value} is invalid`,
-    },
   },
   syllabus: {
     type: String,
     required: [true, "missing syllabus"],
-    enum: {
-      values: ["closed", "open", "fermé", "ouvert"],
-      message: "invalid syllabus",
-    },
+    // enum: {
+    //   values: ["closed", "open", "fermé", "ouvert"],
+    //   message: "invalid syllabus",
+    // },
   },
   danceStyle: {
     type: String,
     required: [true, "missing dance style"],
-    validate: {
-      validator: (danceStyle) => {
-        return danceStyles.includes(danceStyle);
-      },
-      message: "invalid dance style",
-    },
+    // enum: {
+    //   values: ["Smooth", "Rhythm", "Ballroom", "Latin"],
+    //   message: "invalid dance style",
+    // },
   },
   dance: {
     type: String,
@@ -162,29 +153,36 @@ const EntrySchema = new mongoose.Schema({
   // },
 });
 
-EntrySchema.pre("validate", function (next) {
-  if (
-    !(
-      (this.danceStyle === "smooth" && smooth.includes(this.dance)) ||
-      (this.danceStyle === "rhythm" && rhythm.includes(this.dance)) ||
-      (this.danceStyle === "ballroom" && ballroom.includes(this.dance)) ||
-      (this.danceStyle === "latin" && latin.includes(this.dance))
-    )
-  ) {
-    this.invalidate("dance", "invalid or missing dance", this.dance);
-  }
-  next();
-});
+// EntrySchema.pre("validate", function (next) {
+//   if (
+//     !(
+//       (this.danceStyle === "Smooth" && smooth.includes(this.dance)) ||
+//       (this.danceStyle === "Rhythm" && rhythm.includes(this.dance)) ||
+//       (this.danceStyle === "Ballroom" && ballroom.includes(this.dance)) ||
+//       (this.danceStyle === "Latin" && latin.includes(this.dance))
+//     )
+//   ) {
+//     this.invalidate("dance", "invalid or missing dance", this.dance);
+//   }
+//   next();
+// });
 
-EntrySchema.pre("save", function (next) {
-  const countriesDivisions = provinces.concat(states);
-  const countriesDivisionsAbbr = provAbbr.concat(statesAbbr);
+// EntrySchema.pre("validate", function (next) {
+//   if (this.age === "All" && this.category !== "solo") {
+//     this.invalidate("age", "invalid or missing age", this.dance);
+//   }
+//   next();
+// });
 
-  this.stateAbbrev = countriesDivisions.includes(this.state)
-    ? countriesDivisionsAbbr[countriesDivisions.indexOf(this.state)]
-    : "";
+// EntrySchema.pre("save", function (next) {
+//   const countriesDivisions = provinces.concat(states);
+//   const countriesDivisionsAbbr = provAbbr.concat(statesAbbr);
 
-  next();
-});
+//   this.stateAbbrev = countriesDivisions.includes(this.state)
+//     ? countriesDivisionsAbbr[countriesDivisions.indexOf(this.state)]
+//     : "";
+
+//   next();
+// });
 
 module.exports = mongoose.model("Entry", EntrySchema);

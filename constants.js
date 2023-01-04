@@ -33,11 +33,9 @@ exports.levels = [
   "Or Avancé",
 ];
 
-exports.ages = ["JV", "JR", "JE", "A", "B", "C", "D", "E", "F"];
+exports.ages = ["JV", "JR", "JE", "A", "B", "C", "D", "E", "F", "All"];
 
-exports.danceStyles = ["smooth", "rhythm", "ballroom", "latin"];
-
-exports.smooth = ["W", "T", "F", "VW", "PB"];
+exports.smooth = ["W", "T", "F", "VW", "PB", "(W/T/F)", "(W/T/F/VW)"];
 
 exports.rhythm = [
   "C",
@@ -55,37 +53,13 @@ exports.rhythm = [
   "TA",
   "MI",
   "TV",
+  "(C/R/SW)",
+  "(C/R/SW/B/M)"
 ];
 
-exports.ballroom = ["W", "T", "VW", "F", "Q"];
+exports.ballroom = ["W", "T", "VW", "F", "Q", "(W/T/F)", "(W/T/VW/F/Q)"];
 
-exports.latin = ["C", "S", "R", "PD", "J"];
-
-exports.danceNames = {
-  w: "Waltz",
-  t: "Tango",
-  f: "Foxtrot",
-  vw: "Viennese",
-  pb: "Peabody",
-  c: "Chacha",
-  r: "Rumba",
-  sw: "Swing",
-  b: "Bolero",
-  m: "Mambo",
-  sal: "Salsa",
-  me: "Merengue",
-  ba: "Bachata",
-  h: "Hustle",
-  wcs: "Coast",
-  sam: "Samba",
-  pd: "Paso",
-  ta: "Argentine",
-  mi: "Milonga",
-  tv: "Vals",
-  q: "Quickstep",
-  s: "Samba",
-  j: "Jive",
-};
+exports.latin = ["C", "S", "R", "PD", "J", "(C/R/S)", "(C/S/R/P/J)"];
 
 exports.countries = [
   "Afghanistan",

@@ -11,6 +11,7 @@ const {
   deleteEntry,
   getFormConstants,
   createStripeURL,
+  getStripeData
 } = require("../controllers/entries");
 
 const { protect, authorize } = require("../middleware/auth");
@@ -26,6 +27,7 @@ router
   .get(getEntry)
   .put(protect, authorize("publisher", "admin"), updateEntry)
   .delete(protect, authorize("publisher", "admin"), deleteEntry);
-router.post("/create-checkout-session", createStripeURL);
+router.post("/createcheckoutsession", createStripeURL);
+router.get("/getstripedata/:session_id", getStripeData);
 
 module.exports = router;

@@ -213,7 +213,7 @@ const sendEntriesToRegistrar = async (entries) => {
 };
 
 // @desc		Create Stripe URL
-// @route		POST /api/v1/entries/create-checkout-session
+// @route		POST /api/v1/entries/createcheckoutsession
 // @access	PRIVATE
 exports.createStripeURL = asyncHandler(async (req, res, next) => {
   const itemsWithNoZeros = req.body.items.filter((item) => item.quantity > 0);
@@ -232,9 +232,18 @@ exports.createStripeURL = asyncHandler(async (req, res, next) => {
         quantity: item.quantity,
       };
     }),
-    success_url: `${process.env.CLIENT_URL}/success`,
+    success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.CLIENT_URL}`,
   });
 
   res.status(201).json({ url: session.url });
+});
+
+// @desc		Get Stripe Data
+// @route		GET /api/v1/entries/getstripedata
+// @access	PRIVATE
+exports.getStripeData = asyncHandler(async (req, res, next) => {
+  const session = await stripe.checkout.sessions.retrieve(req.params.session_id);
+  // const customer = await stripe.customers.retrieve(session.customer);
+  res.status(200).json({ success: true, data: session });
 });
